@@ -1,70 +1,58 @@
-# Getting Started with Create React App
+# Digit Recognition
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Introduction
 
-## Available Scripts
+Digit Recognition est une application conçue pour reconnaître les chiffres écrits à la main en utilisant des technologies de pointe en matière d'IA et de développement web. L'application se compose d'une interface utilisateur frontale développée avec React et d'un back-end construit avec Django.
 
-In the project directory, you can run:
+## Architecture du Projet
 
-### `npm start`
+### Frontend: React
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+#### Objectif
+- Fournir une interface utilisateur intuitive pour le téléchargement d'images et la visualisation des résultats.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+#### Technologies
+- **React.js**: Pour construire l'UI.
+- **Axios**: Pour gérer les requêtes API au backend.
+- **CSS/HTML**: Pour le stylisme et la structure de l'application.
 
-### `npm test`
+#### Fonctionnalités
+- **Téléchargement d'Images**: Permet aux utilisateurs de télécharger des images de chiffres manuscrits.
+- **Affichage des Résultats**: Affiche les chiffres reconnus à l'utilisateur.
+- **Historique des Recherches**: Montre un historique des images et des résultats.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Backend: Django
 
-### `npm run build`
+#### Objectif
+- Gérer les requêtes API, traiter les images, et exécuter le modèle de reconnaissance de chiffres.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### Technologies
+- **Django**: Pour construire le backend.
+- **Django REST Framework**: Pour créer l'API.
+- **TensorFlow/PyTorch**: Pour les modèles de machine learning.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### Fonctionnalités
+- **API de Reconnaissance**: Traite les images et renvoie les chiffres reconnus.
+- **Gestion des Utilisateurs**: Authentifie les utilisateurs et gère les sessions.
+- **Stockage des Données**: Stocke les images et les résultats.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Workflow de l'Application
 
-### `npm run eject`
+1. **Téléchargement de l'Image**: L'utilisateur télécharge une image via l'UI React.
+2. **Requête API**: L'image est envoyée au backend Django via une requête API.
+3. **Traitement et Prédiction**: L'image est traitée et le chiffre est prédit à l'aide du modèle IA.
+4. **Affichage du Résultat**: Le chiffre reconnu est renvoyé et affiché à l'utilisateur.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Défis et Solutions
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **Précision du Modèle**: Utilisation d'un ensemble de données vaste et diversifié et mise en œuvre de la validation croisée.
+- **Performance**: Optimisation du modèle et utilisation de la mise en cache pour améliorer la réactivité.
+- **Expérience Utilisateur**: Création d'une UI intuitive et fourniture de feedbacks clairs à l'utilisateur.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Conclusion
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Digit Recognition explore les capacités de l'IA dans la reconnaissance d'images et intègre des technologies frontend et backend pour fournir une solution complète et conviviale pour la reconnaissance de chiffres manuscrits.
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Note**: Cette documentation peut nécessiter des ajustements spécifiques en fonction des détails réels et des exigences du projet.
