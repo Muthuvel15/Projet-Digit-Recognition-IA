@@ -50,7 +50,7 @@ const Home = () => {
         className="mt-4 ml-2 p-2 bg-red-500 text-white rounded"
       >
         clear
-      </button>
+      </button> 
 
       </div>
     
