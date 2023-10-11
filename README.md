@@ -53,6 +53,4 @@ Digit Recognition est une application conçue pour reconnaître les chiffres éc
 
 Digit Recognition explore les capacités de l'IA dans la reconnaissance d'images et intègre des technologies frontend et backend pour fournir une solution complète et conviviale pour la reconnaissance de chiffres manuscrits.
 
----
 
-**Note**: Cette documentation peut nécessiter des ajustements spécifiques en fonction des détails réels et des exigences du projet.
