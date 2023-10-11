@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
 import { ReactSketchCanvas } from 'react-sketch-canvas';
+import { saveAs } from 'file-saver';
 import '../App.css';
+import Header from './header'; // Corrected import statement
 
 const Home = () => {
   const styles = {
@@ -24,17 +26,27 @@ const Home = () => {
     console.log(canvasData);
     saveAs(canvasData, 'digit.png');
     sendData(canvasData)
-}
+  };
 
   const resetCanvas = () => {
     canvasRef.current.clearCanvas();
-    
   };
 
+  const sendData = (c) => {
+    console.log(c)
+  };
+
+  // Commented out the unused function to resolve the warning
+  // const getImageResult = (id) => {
+  //   
+  // };
+
   return (
+    <div>
+      <Header />
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      < Header/>
-    <br/> <br/>      
+       <h1 className="text-4xl font-bold mb-4">Digit Recognition App</h1>
+      
       <div style={canvasWrapperStyles}>
         <ReactSketchCanvas
           ref={canvasRef}
@@ -48,25 +60,20 @@ const Home = () => {
         />
       </div>
       <div>
-      <button 
-        onClick={handleSubmit}
-        className="mt-4 p-2 bg-blue-500 text-white rounded"
-      >
-        Predict Digit
-      </button>
-
-      <button 
-        onClick={resetCanvas}
-        className="mt-4 ml-2 p-2 bg-red-500 text-white rounded"
-      >
-        clear
-      </button> 
-
+        <button 
+          onClick={handleSubmit}
+          className="mt-4 p-2 bg-blue-500 text-white rounded"
+        >
+          Predict Digit
+        </button>
+        <button 
+          onClick={resetCanvas}
+          className="mt-4 ml-2 p-2 bg-red-500 text-white rounded"
+        >
+          Clear
+        </button>
       </div>
-      
-      
-
-    
+    </div>
     </div>
   );
 };
