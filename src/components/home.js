@@ -1,9 +1,6 @@
 import React, { useRef } from 'react';
 import { ReactSketchCanvas } from 'react-sketch-canvas';
-//import {saveAs} from 'file-saver';
 import '../App.css';
-import './header';
-import Header from './header';
 
 const Home = () => {
   const styles = {
@@ -21,15 +18,18 @@ const Home = () => {
   };
 
   const canvasRef = useRef(null);
+ 
+  const handleSubmit = async () => {
+    const canvasData = await canvasRef.current.exportImage('png');
+    console.log(canvasData);
+    saveAs(canvasData, 'digit.png');
+    sendData(canvasData)
+}
 
   const resetCanvas = () => {
     canvasRef.current.clearCanvas();
+    
   };
-
-  const handleSubmit = () => {
-    const canvas = ReactSketchCanvas
-    console.log(canvas)
-  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
@@ -43,6 +43,8 @@ const Home = () => {
           height='280px'
           strokeWidth={10}
           strokeColor="green"
+          imageFormat='jpg'
+          lineWidth={60}
         />
       </div>
       <div>
@@ -58,12 +60,8 @@ const Home = () => {
         className="mt-4 ml-2 p-2 bg-red-500 text-white rounded"
       >
         clear
-      </button>
-      </div>
-      <br/>
-      <div>
-      <h3 className="text-4xl font-bold mb-4">prediction</h3>
-      <p>data</p>
+      </button> 
+
       </div>
       
       
