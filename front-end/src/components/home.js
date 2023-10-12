@@ -1,61 +1,65 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { ReactSketchCanvas } from 'react-sketch-canvas';
-import { saveAs } from 'file-saver';
-import { loadCaptchaEnginge, validateCaptcha, LoadCanvasTemplate } from 'react-simple-captcha';
-import '../App.css';
+import React, { useRef, useState } from 'react';
+// import { saveAs } from 'file-saver';
+import axios from 'axios';
 import Header from './header';
 
 const Home = () => {
-  const styles = {
-    border: '0.0625rem solid #9c9c9c',
-    borderRadius: '0.25rem',
-  };
-
-  const canvasWrapperStyles = {
-    backgroundColor: 'black',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '280px',
-    height: '280px',
-  };
-
-  const [userInput, setUserInput] = useState('');
-  const [isCaptchaValid, setIsCaptchaValid] = useState(null);
-  const [showSketchCanvas, setShowSketchCanvas] = useState(false);
-
   const canvasRef = useRef(null);
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [send, setSend] = useState(false);
 
-  useEffect(() => {
-    loadCaptchaEnginge(6); // 6 is the length of the captcha
-  }, []);
+  const startDrawing = (e) => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    ctx.strokeStyle = 'white';
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    ctx.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+    setIsDrawing(true);
+  };
 
-  const handleSubmit = async () => {
-    if (showSketchCanvas) {
-      const canvasData = await canvasRef.current.exportImage('png');
-      console.log(canvasData);
-      saveAs(canvasData, 'digit.png');
-      // You can send data or do something else with the canvasData here
-    } else {
-      const isValid = validateCaptcha(userInput);
-      setIsCaptchaValid(isValid);
+  const draw = (e) => {
+    if (!isDrawing) return;
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    ctx.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+    ctx.stroke();
+  };
 
-      if (isValid) {
-        alert('Captcha validated! You can now use the prediction functionality.');
-        setShowSketchCanvas(true); // Show the sketch canvas after validation
-      } else {
-        alert('Invalid captcha, please try again.');
-        setShowSketchCanvas(false); // Hide the sketch canvas if validation fails
-      }
-    }
+  const stopDrawing = () => {
+    setIsDrawing(false);
   };
 
   const resetCanvas = () => {
-    canvasRef.current.clearCanvas();
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
   };
 
-  const handleInputChange = (e) => {
-    setUserInput(e.target.value);
+  const handleSubmit = async () => {
+    const canvas = canvasRef.current;
+    const canvasData = canvas.toDataURL('image/png');
+    console.log(canvasData);
+    // saveAs(canvasData, 'digit.png');
+    sendData(canvasData);
+  };
+
+  const sendData = (canvasData) => {
+    const headers = {
+      'accept': 'application/json',
+    };
+    const fd = new FormData();
+    fd.append('images', canvasData);
+    axios
+      .post('http://127.0.0.1:8000/api/digits/', fd, { headers: headers })
+      .then((res) => {
+        console.log(res.data);
+        setSend(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log(err.response.data);
+      });
   };
 
   return (
@@ -63,58 +67,31 @@ const Home = () => {
       <Header />
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
         <h1 className="text-4xl font-bold mb-4">Digit Recognition App</h1>
-        
-        {!showSketchCanvas && (
-          <>
-            <LoadCanvasTemplate />
-            <input 
-              type="text" 
-              value={userInput} 
-              onChange={handleInputChange} 
-              placeholder="Enter Captcha"
-              className="mb-4 p-2 border rounded"
-            />
-            <button 
-              onClick={handleSubmit}
-              className="mt-4 p-2 bg-blue-500 text-white rounded"
-            >
-              Validate Captcha
-            </button>
-          </>
-        )}
-
-        {showSketchCanvas && (
-          <>
-            <div style={canvasWrapperStyles}>
-              <ReactSketchCanvas
-                ref={canvasRef}
-                style={styles}
-                width='280px'
-                height='280px'
-                strokeWidth={10}
-                strokeColor="green"
-                imageFormat='jpg'
-                lineWidth={60}
-              />
-            </div>
-            <div>
-              <button 
-                onClick={handleSubmit}
-                className="mt-4 p-2 bg-blue-500 text-white rounded"
-              >
-                Predict Digit
-              </button>
-              <button 
-                onClick={resetCanvas}
-                className="mt-4 ml-2 p-2 bg-red-500 text-white rounded"
-              >
-                Clear
-              </button>
-            </div>
-          </>
-        )}
-
-        {isCaptchaValid === false && <p style={{color: 'red'}}>Invalid captcha, please try again.</p>}
+        {send && <alert variant="info">Successfully sent for classification</alert>}
+        <canvas
+          ref={canvasRef}
+          width="200"
+          height="200"
+          style={{ border: '1px solid black', background: 'black' }}
+          onMouseDown={startDrawing}
+          onMouseMove={draw}
+          onMouseUp={stopDrawing}
+          onMouseOut={stopDrawing}
+        />
+        <div>
+          <button
+            onClick={handleSubmit}
+            className="mt-4 p-2 bg-blue-500 text-white rounded"
+          >
+            Predict Digit
+          </button>
+          <button
+            onClick={resetCanvas}
+            className="mt-4 ml-2 p-2 bg-red-500 text-white rounded"
+          >
+            Clear
+          </button>
+        </div>
       </div>
     </div>
   );
