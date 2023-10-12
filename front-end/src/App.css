@@ -1,11 +1,10 @@
 .header {
   background-color: #4CAF50;
-  padding: 15px;
+  padding: 5px;
   color: white;
   text-align: center;
 }
 
-/* Additional styles for your app */
 .flex {
   display: flex;
 }
